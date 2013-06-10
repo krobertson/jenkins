@@ -2,6 +2,6 @@
 exec 2>&1
 cd <%= node['jenkins']['node']['home'] %>
 exec chpst -u <%= node['jenkins']['node']['user'] %> \
-  java -jar <%= node['jenkins']['node']['home'] %>/slave.jar \
-  -jnlpUrl <%= node['jenkins']['server']['url'] %>/computer/<%= node['jenkins']['node']['name'] %>/slave-agent.jnlp \
-  <%= node['jenkins']['node']['jvm_options'] %>
+  java <%= node['jenkins']['node']['jvm_options'] %> \
+  -jar <%= node['jenkins']['node']['home'] %>/slave.jar \
+  -jnlpUrl <%= node['jenkins']['server']['url'] %>/computer/<%= node['jenkins']['node']['name'] %>/slave-agent.jnlp
