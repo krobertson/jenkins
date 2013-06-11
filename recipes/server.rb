@@ -92,6 +92,20 @@ remote_file File.join(home_dir, "jenkins.war") do
   owner node['jenkins']['server']['user']
   group node['jenkins']['server']['group']
   notifies :restart, "runit_service[jenkins]"
+  only_if do
+    jenkins_war = File.join(home_dir, "jenkins.war")
+
+    # if no war file is found, run it
+    next true if File.exist?(jenkins_war)
+
+    # if we have a checksum, check it. return true if they don't match
+    unless node['jenkins']['server']['war_checksum'].nil?
+      next Digest::SHA2.file(jenkins_war).hexdigest != node['jenkins']['server']['war_checksum']
+    end
+
+    # fall back on run it
+    true
+  end
 end
 
 # Only restart if plugins were added
