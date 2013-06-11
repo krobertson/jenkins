@@ -83,6 +83,7 @@ node['jenkins']['server']['plugins'].each do |plugin|
     backup false
     action :create_if_missing
     notifies :restart, "runit_service[jenkins]"
+    not_if do ::File.exists?("#{plugins_dir}/#{name}.jpi") end
   end
 end
 
