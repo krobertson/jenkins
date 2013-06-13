@@ -97,7 +97,7 @@ remote_file File.join(home_dir, "jenkins.war") do
     jenkins_war = File.join(home_dir, "jenkins.war")
 
     # if no war file is found, run it
-    next true if File.exist?(jenkins_war)
+    next true unless ::File.exist?(jenkins_war)
 
     # if we have a checksum, check it. return true if they don't match
     unless node['jenkins']['server']['war_checksum'].nil?
